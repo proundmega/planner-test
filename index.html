@@ -8,12 +8,44 @@
 </head>
 <body>
     <div class="container">
-        <h1>CPU Benchmark</h1>
-        <p>Test your processor's performance with these standard benchmarks.</p>
-        <button id="startBtn">Run Benchmark</button>
-        <div id="results" class="results hidden">
-            <!-- Results will be injected here -->
-        </div>
+        <header>
+            <h1>CPU Benchmark</h1>
+            <p>Test your processor's performance with mathematical stress tests.</p>
+        </header>
+
+        <main>
+            <div class="controls">
+                <button id="startBtn" class="btn-primary">Run Benchmark</button>
+                <div id="status" class="status">Ready</div>
+            </div>
+
+            <div id="results" class="results-grid hidden">
+                <div class="card">
+                    <h3>Prime Number Sieve</h3>
+                    <p class="metric" id="primeResult">--</p>
+                    <p class="description">Counting primes up to 1,000,000</p>
+                </div>
+                <div class="card">
+                    <h3>Pi Calculation</h3>
+                    <p class="metric" id="piResult">--</p>
+                    <p class="description">Calculating Pi (10M iterations)</p>
+                </div>
+                <div class="card">
+                    <h3>Matrix Multiplication</h3>
+                    <p class="metric" id="matrixResult">--</p>
+                    <p class="description">200x200 Matrix Multiply</p>
+                </div>
+                <div class="card total">
+                    <h3>Total Score</h3>
+                    <p class="metric" id="totalResult">--</p>
+                    <p class="description">Combined performance metric</p>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>Client-side CPU Benchmark &copy; 2023</p>
+        </footer>
     </div>
     <script src="script.js"></script>
 </body>
