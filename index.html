@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CPU Benchmark</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>CPU Benchmark</h1>
+        <p>Test your processor's performance with our lightweight benchmark.</p>
+    </header>
+
+    <main>
+        <div class="benchmark-container">
+            <div class="status" id="status">Ready to start</div>
+            <div class="progress-bar">
+                <div class="progress" id="progress"></div>
+            </div>
+            <div class="score-container">
+                <div class="score" id="score">0</div>
+                <div class="score-label">Benchmark Score</div>
+            </div>
+            <button id="run-btn">Run Benchmark</button>
+        </div>
+
+        <div class="results" id="results" style="display: none;">
+            <h2>Results</h2>
+            <div class="result-item">
+                <span>Time Taken:</span>
+                <span id="time-taken">0 ms</span>
+            </div>
+            <div class="result-item">
+                <span>Operations:</span>
+                <span id="operations">0</span>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2023 CPU Benchmark. All rights reserved.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
