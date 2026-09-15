@@ -1,95 +1,103 @@
-document.getElementById('startBtn').addEventListener('click', runBenchmark);
+document.addEventListener('DOMContentLoaded', () => {
+    const taskInput = document.getElementById('task-input');
+    const addTaskBtn = document.getElementById('add-task-btn');
+    const columns = document.querySelectorAll('.column');
 
-async function runBenchmark() {
-    const btn = document.getElementById('startBtn');
-    const resultsDiv = document.getElementById('results');
-    
-    btn.disabled = true;
-    btn.textContent = 'Running...';
-    resultsDiv.innerHTML = '<p>Running tests...</p>';
-    resultsDiv.classList.remove('hidden');
+    // Add Task Functionality
+    addTaskBtn.addEventListener('click', addTask);
+    taskInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') addTask();
+    });
 
-    const results = [];
+    function addTask() {
+        const taskText = taskInput.value.trim();
+        if (taskText === '') return;
 
-    // Test 1: Math Operations
-    results.push(await testMath());
+        const task = document.createElement('div');
+        task.classList.add('task');
+        task.setAttribute('draggable', 'true');
+        task.textContent = taskText;
 
-    // Test 2: String Operations
-    results.push(await testString());
+        // Add drag events to the new task
+        task.addEventListener('dragstart', dragStart);
+        task.addEventListener('dragend', dragEnd);
 
-    // Test 3: Array Operations
-    results.push(await testArray());
+        // Add to the first column (To Do)
+        const todoList = document.querySelector('.column[data-status="todo"] .task-list');
+        todoList.appendChild(task);
 
-    // Test 4: Prime Numbers
-    results.push(await testPrimes());
+        taskInput.value = '';
+    }
 
-    displayResults(results);
+    // Drag and Drop Functionality
+    let draggedItem = null;
 
-    btn.disabled = false;
-    btn.textContent = 'Run Benchmark';
-}
+    function dragStart() {
+        draggedItem = this;
+        setTimeout(() => this.classList.add('dragging'), 0);
+    }
 
-function testMath() {
-    return new Promise(resolve => {
-        const start = performance.now();
-        let sum = 0;
-        for (let i = 0; i < 10000000; i++) {
-            sum += Math.sqrt(i) * Math.sin(i);
+    function dragEnd() {
+        this.classList.remove('dragging');
+        draggedItem = null;
+    }
+
+    function dragOver(e) {
+        e.preventDefault();
+    }
+
+    function dragEnter(e) {
+        e.preventDefault();
+        const column = e.target.closest('.column');
+        if (column) {
+            column.classList.add('drag-over');
         }
-        const end = performance.now();
-        resolve({ name: 'Math Operations', score: (end - start).toFixed(2) + ' ms' });
-    });
-}
+    }
 
-function testString() {
-    return new Promise(resolve => {
-        const start = performance.now();
-        let str = '';
-        for (let i = 0; i < 100000; i++) {
-            str += 'benchmark ';
+    function dragLeave(e) {
+        const column = e.target.closest('.column');
+        if (column && !column.contains(e.relatedTarget)) {
+            column.classList.remove('drag-over');
         }
-        const end = performance.now();
-        resolve({ name: 'String Concatenation', score: (end - start).toFixed(2) + ' ms' });
-    });
-}
+    }
 
-function testArray() {
-    return new Promise(resolve => {
-        const start = performance.now();
-        const arr = Array.from({ length: 100000 }, () => Math.random());
-        arr.sort((a, b) => a - b);
-        const end = performance.now();
-        resolve({ name: 'Array Sorting', score: (end - start).toFixed(2) + ' ms' });
-    });
-}
-
-function testPrimes() {
-    return new Promise(resolve => {
-        const start = performance.now();
-        let count = 0;
-        for (let i = 2; i < 100000; i++) {
-            let isPrime = true;
-            for (let j = 2; j <= Math.sqrt(i); j++) {
-                if (i % j === 0) {
-                    isPrime = false;
-                    break;
-                }
+    function drop(e) {
+        e.preventDefault();
+        const column = e.target.closest('.column');
+        if (column && draggedItem) {
+            column.classList.remove('drag-over');
+            const taskList = column.querySelector('.task-list');
+            
+            // Find the closest task to insert before
+            const afterElement = getDragAfterElement(taskList, e.clientY);
+            
+            if (afterElement == null) {
+                taskList.appendChild(draggedItem);
+            } else {
+                taskList.insertBefore(draggedItem, afterElement);
             }
-            if (isPrime) count++;
         }
-        const end = performance.now();
-        resolve({ name: 'Prime Number Calculation', score: (end - start).toFixed(2) + ' ms' });
-    });
-}
+    }
 
-function displayResults(results) {
-    const resultsDiv = document.getElementById('results');
-    resultsDiv.innerHTML = '<h3>Results</h3>';
-    
-    results.forEach(res => {
-        const div = document.createElement('div');
-        div.className = 'result-item';
-        div.innerHTML = `<span>${res.name}</span><span class="score">${res.score}</span>`;
-        resultsDiv.appendChild(div);
+    function getDragAfterElement(container, y) {
+        const draggableElements = [...container.querySelectorAll('.task:not(.dragging)')];
+
+        return draggableElements.reduce((closest, child) => {
+            const box = child.getBoundingClientRect();
+            const offset = y - box.top - box.height / 2;
+            if (offset < 0 && offset > closest.offset) {
+                return { offset: offset, element: child };
+            } else {
+                return closest;
+            }
+        }, { offset: Number.NEGATIVE_INFINITY }).element;
+    }
+
+    // Attach event listeners to columns
+    columns.forEach(column => {
+        column.addEventListener('dragover', dragOver);
+        column.addEventListener('dragenter', dragEnter);
+        column.addEventListener('dragleave', dragLeave);
+        column.addEventListener('drop', drop);
     });
-}
+});

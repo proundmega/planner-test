@@ -3,17 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CPU Benchmark</title>
+    <title>Kanban Board</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <h1>CPU Benchmark</h1>
-        <p>Test your processor's performance with these standard benchmarks.</p>
-        <button id="startBtn">Run Benchmark</button>
-        <div id="results" class="results hidden">
-            <!-- Results will be injected here -->
+    <header>
+        <h1>Kanban Board</h1>
+    </header>
+    <main class="board">
+        <div class="column" data-status="todo">
+            <h2>To Do</h2>
+            <div class="task-list">
+                <div class="task" draggable="true">Design Homepage</div>
+                <div class="task" draggable="true">Setup Database</div>
+            </div>
         </div>
+        <div class="column" data-status="inprogress">
+            <h2>In Progress</h2>
+            <div class="task-list">
+                <div class="task" draggable="true">Implement Login</div>
+            </div>
+        </div>
+        <div class="column" data-status="done">
+            <h2>Done</h2>
+            <div class="task-list">
+                <div class="task" draggable="true">Project Kickoff</div>
+            </div>
+        </div>
+    </main>
+    <div class="add-task-container">
+        <input type="text" id="task-input" placeholder="Enter a new task...">
+        <button id="add-task-btn">Add Task</button>
     </div>
     <script src="script.js"></script>
 </body>
