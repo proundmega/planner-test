@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CPU Benchmark</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>CPU Benchmark</h1>
+        <p>Test your processor's performance</p>
+    </header>
+    <main>
+        <div class="controls">
+            <button id="startBtn">Run Benchmark</button>
+        </div>
+        <div class="results" id="results" style="display: none;">
+            <div class="score-card">
+                <h2>Score</h2>
+                <div class="score-value" id="scoreValue">0</div>
+            </div>
+            <div class="details">
+                <p>Time: <span id="timeValue">0</span>s</p>
+                <p>Status: <span id="statusValue">Idle</span></p>
+            </div>
+        </div>
+    </main>
+    <script src="script.js"></script>
+</body>
+</html>
