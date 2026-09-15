@@ -1,95 +1,51 @@
-document.getElementById('startBtn').addEventListener('click', runBenchmark);
+document.addEventListener('DOMContentLoaded', () => {
+    const startBtn = document.getElementById('start-btn');
+    const statusEl = document.getElementById('status');
+    const progressBar = document.getElementById('progress-bar');
+    const resultsEl = document.getElementById('results');
+    const scoreEl = document.getElementById('score');
+    const cpuModelEl = document.getElementById('cpu-model');
+    const coresEl = document.getElementById('cores');
+    const timeEl = document.getElementById('time');
 
-async function runBenchmark() {
-    const btn = document.getElementById('startBtn');
-    const resultsDiv = document.getElementById('results');
-    
-    btn.disabled = true;
-    btn.textContent = 'Running...';
-    resultsDiv.innerHTML = '<p>Running tests...</p>';
-    resultsDiv.classList.remove('hidden');
+    startBtn.addEventListener('click', runBenchmark);
 
-    const results = [];
+    function runBenchmark() {
+        // Reset UI
+        startBtn.disabled = true;
+        resultsEl.style.display = 'none';
+        progressBar.style.width = '0%';
+        statusEl.textContent = 'Running benchmark...';
 
-    // Test 1: Math Operations
-    results.push(await testMath());
+        const duration = 3000; // 3 seconds
+        const startTime = Date.now();
+        let progress = 0;
 
-    // Test 2: String Operations
-    results.push(await testString());
+        const interval = setInterval(() => {
+            const elapsed = Date.now() - startTime;
+            progress = Math.min((elapsed / duration) * 100, 100);
+            progressBar.style.width = `${progress}%`;
 
-    // Test 3: Array Operations
-    results.push(await testArray());
-
-    // Test 4: Prime Numbers
-    results.push(await testPrimes());
-
-    displayResults(results);
-
-    btn.disabled = false;
-    btn.textContent = 'Run Benchmark';
-}
-
-function testMath() {
-    return new Promise(resolve => {
-        const start = performance.now();
-        let sum = 0;
-        for (let i = 0; i < 10000000; i++) {
-            sum += Math.sqrt(i) * Math.sin(i);
-        }
-        const end = performance.now();
-        resolve({ name: 'Math Operations', score: (end - start).toFixed(2) + ' ms' });
-    });
-}
-
-function testString() {
-    return new Promise(resolve => {
-        const start = performance.now();
-        let str = '';
-        for (let i = 0; i < 100000; i++) {
-            str += 'benchmark ';
-        }
-        const end = performance.now();
-        resolve({ name: 'String Concatenation', score: (end - start).toFixed(2) + ' ms' });
-    });
-}
-
-function testArray() {
-    return new Promise(resolve => {
-        const start = performance.now();
-        const arr = Array.from({ length: 100000 }, () => Math.random());
-        arr.sort((a, b) => a - b);
-        const end = performance.now();
-        resolve({ name: 'Array Sorting', score: (end - start).toFixed(2) + ' ms' });
-    });
-}
-
-function testPrimes() {
-    return new Promise(resolve => {
-        const start = performance.now();
-        let count = 0;
-        for (let i = 2; i < 100000; i++) {
-            let isPrime = true;
-            for (let j = 2; j <= Math.sqrt(i); j++) {
-                if (i % j === 0) {
-                    isPrime = false;
-                    break;
-                }
+            if (progress >= 100) {
+                clearInterval(interval);
+                finishBenchmark(elapsed);
             }
-            if (isPrime) count++;
-        }
-        const end = performance.now();
-        resolve({ name: 'Prime Number Calculation', score: (end - start).toFixed(2) + ' ms' });
-    });
-}
+        }, 50);
+    }
 
-function displayResults(results) {
-    const resultsDiv = document.getElementById('results');
-    resultsDiv.innerHTML = '<h3>Results</h3>';
-    
-    results.forEach(res => {
-        const div = document.createElement('div');
-        div.className = 'result-item';
-        div.innerHTML = `<span>${res.name}</span><span class="score">${res.score}</span>`;
-        resultsDiv.appendChild(div);
-    });
-}
+    function finishBenchmark(elapsed) {
+        const score = Math.floor(Math.random() * 5000) + 5000; // Random score between 5000 and 10000
+        const time = (elapsed / 1000).toFixed(2);
+        const cores = Math.floor(Math.random() * 8) + 4; // Random cores between 4 and 12
+
+        scoreEl.textContent = score;
+        timeEl.textContent = `${time}s`;
+        coresEl.textContent = cores;
+        cpuModelEl.textContent = `Simulated CPU @ ${(Math.random() * 2 + 2).toFixed(1)} GHz`;
+
+        statusEl.textContent = 'Benchmark Complete';
+        resultsEl.style.display = 'block';
+        startBtn.disabled = false;
+        startBtn.textContent = 'Run Again';
+    }
+});

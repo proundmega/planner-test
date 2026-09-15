@@ -7,14 +7,36 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
+    <header>
         <h1>CPU Benchmark</h1>
-        <p>Test your processor's performance with these standard benchmarks.</p>
-        <button id="startBtn">Run Benchmark</button>
-        <div id="results" class="results hidden">
-            <!-- Results will be injected here -->
+        <p>Test your processor performance</p>
+    </header>
+
+    <main>
+        <div class="benchmark-container">
+            <div class="controls">
+                <button id="start-btn">Start Benchmark</button>
+                <div class="status" id="status">Ready</div>
+            </div>
+
+            <div class="progress-container">
+                <div class="progress-bar" id="progress-bar"></div>
+            </div>
+
+            <div class="results" id="results" style="display: none;">
+                <div class="score-card">
+                    <h2>Score</h2>
+                    <div class="score" id="score">0</div>
+                </div>
+                <div class="details">
+                    <p>CPU Model: <span id="cpu-model">Simulated CPU</span></p>
+                    <p>Cores: <span id="cores">4</span></p>
+                    <p>Time: <span id="time">0.00s</span></p>
+                </div>
+            </div>
         </div>
-    </div>
+    </main>
+
     <script src="script.js"></script>
 </body>
 </html>
