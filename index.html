@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CPU Benchmark</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>CPU Benchmark</h1>
+            <p>Test your browser's CPU performance with a single click.</p>
+        </header>
+        <main>
+            <div class="benchmark-card">
+                <button id="run-btn">Run Benchmark</button>
+                <div id="status" class="status">Ready</div>
+                <div id="result" class="result hidden">
+                    <h2>Score: <span id="score-value">0</span></h2>
+                    <p>Time: <span id="time-value">0</span> ms</p>
+                </div>
+            </div>
+            <div class="info">
+                <h3>About</h3>
+                <p>This benchmark calculates prime numbers up to 10,000,000 to stress the CPU. Higher scores indicate better performance.</p>
+            </div>
+        </main>
+        <footer>
+            <p>&copy; 2023 CPU Benchmark Tool</p>
+        </footer>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
