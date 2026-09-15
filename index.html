@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CPU Benchmark Suite</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>CPU Benchmark Suite</h1>
+        <p>Test your processor's performance with these mathematical operations.</p>
+    </header>
+
+    <main>
+        <div class="controls">
+            <button id="btn-prime" onclick="runPrimeBenchmark()">Prime Numbers (1-1,000,000)</button>
+            <button id="btn-fib" onclick="runFibBenchmark()">Fibonacci (N=40)</button>
+            <button id="btn-sort" onclick="runSortBenchmark()">Sort 1,000,000 Integers</button>
+            <button id="btn-matrix" onclick="runMatrixBenchmark()">Matrix Multiplication (500x500)</button>
+        </div>
+
+        <div class="results-container">
+            <div class="result-card">
+                <h3>Prime Numbers</h3>
+                <div class="metric" id="res-prime">-- ms</div>
+            </div>
+            <div class="result-card">
+                <h3>Fibonacci</h3>
+                <div class="metric" id="res-fib">-- ms</div>
+            </div>
+            <div class="result-card">
+                <h3>Sorting</h3>
+                <div class="metric" id="res-sort">-- ms</div>
+            </div>
+            <div class="result-card">
+                <h3>Matrix Mult</h3>
+                <div class="metric" id="res-matrix">-- ms</div>
+            </div>
+        </div>
+
+        <div class="log-container">
+            <h3>System Log</h3>
+            <ul id="log-list"></ul>
+        </div>
+    </main>
+
+    <footer>
+        <p>Warning: These tests may cause high CPU usage. Ensure your system is cooled properly.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
